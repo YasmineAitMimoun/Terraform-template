@@ -1,0 +1,18 @@
+#Terraform files
+Projet/.terraform
+Projet/.terraform.lock.hcl
+Projet/terraform.tfstate
+Projet/terraform.tfstate.backup
+Infrastructure/terraform.tfstate
+Infrastructure/.terraform.lock.hcl
+Infrastructure/.terraform
+
+#Venv
+.venv/
+
+#idea
+.idea/
+.idea/inspectionProfiles/
+
+# Credentials
+*.json
