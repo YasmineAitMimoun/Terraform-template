@@ -2,7 +2,7 @@
 provider "google" {
   region = var.region #default region
   zone = var.zone #default zone
-  impersonate_service_account = "vm-creator@myecosystemdevbis.iam.gserviceaccount.com"
+  impersonate_service_account = "vm-creator@myecosystemdevv.iam.gserviceaccount.com"
 }
 
 # call module to create the VM

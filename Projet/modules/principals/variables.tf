@@ -25,7 +25,7 @@ variable "roles_vm_creator" {
   ]
 }
 
-# Project ID where the service account will be created
+# Project ID
 variable "project_id" {
-  default = "myecosystemdevbis"
+  default = "myecosystemdevv"
 }

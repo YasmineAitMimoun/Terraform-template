@@ -16,10 +16,10 @@ variable machine_type {
 variable service_account {
   type = string
   description = "Service account email"
-  default ="vm-data-loader@myecosystemdevbis.iam.gserviceaccount.com"
+  default ="vm-data-loader@myecosystemdevv.iam.gserviceaccount.com"
 }
 
 # Project ID where the VM will be created
 variable "project_id" {
-  default = "myecosystemdevbis"
+  default = "myecosystemdevv"
 }
