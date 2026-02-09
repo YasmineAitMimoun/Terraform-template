@@ -14,5 +14,15 @@ variable "organisation_id" {
 
 # Project ID to use for the new Google Cloud project
 variable "project_id" {
-  default = "uniquemyecosystemdevbis1"
+  default = "myecosystemdevbis"
+}
+
+# Folder Name
+variable "folder_name" {
+  default = "folder_template"
+}
+
+# Project Name
+variable "project_name" {
+  default = "myecosystemdev"
 }

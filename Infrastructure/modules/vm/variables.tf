@@ -1,0 +1,25 @@
+# Specify the zone where resources will be created
+variable zone {
+  type = string
+  description = "Zone where the project will be hosted"
+  default ="europe-west1-b"
+}
+
+# Specify the machine type for the VM
+variable machine_type {
+  type = string
+  description = "Machine type of the VM"
+  default ="e2-micro"
+}
+
+# Specify the service account for the VM
+variable service_account {
+  type = string
+  description = "Service account email"
+  default ="vm-data-loader@myecosystemdevbis.iam.gserviceaccount.com"
+}
+
+# Project ID where the VM will be created
+variable "project_id" {
+  default = "myecosystemdevbis"
+}

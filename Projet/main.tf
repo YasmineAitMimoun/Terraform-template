@@ -7,3 +7,8 @@ provider "google" {
 module "project" {
   source = "./modules/Project"
 }
+
+#Call module to create Service account
+module "service_account" {
+  source = "./modules/principals"
+}
