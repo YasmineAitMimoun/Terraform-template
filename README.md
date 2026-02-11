@@ -65,4 +65,3 @@ This repository contains Terraform code to provision **Google Cloud Platform (GC
 - Terraform >= 1.5
 - GCP project with sufficient permissions
 - `gcloud` CLI configured with authentication
-- Service accounts enabled for impersonation
