@@ -1,26 +1,9 @@
-# Debian 12 Virtual Machine
-resource "google_compute_instance" "data-loader-vm" {
-  name = "data-loader-vm"
-  machine_type = var.machine_type
-  zone = var.zone
+resource "google_storage_bucket" "CS_bucket" {
+  location = "EU"
+  name     = var.bucket_name
   project = var.project_id
-
-  # Boot disk configuration (Debian 12 image)
-  boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-12"
-    }
-  }
-  # Network configuration (default VPC with external IP)
-  network_interface {
-    network       = "default"
-    access_config {}
-  }
-  # Service Account attached to the VM
-  # This Service Account will be used by applications running on the VM
-  service_account {
-    email  = var.service_account
-    scopes = ["cloud-platform"]
-  }
+  storage_class = "STANDARD"
+  uniform_bucket_level_access = true
 
 }
+

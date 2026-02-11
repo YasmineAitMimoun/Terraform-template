@@ -21,7 +21,8 @@ variable "roles_data_loader"{
 variable "roles_vm_creator" {
   default = [
     "roles/compute.instanceAdmin.v1",
-    "roles/iam.serviceAccountUser"
+    "roles/iam.serviceAccountUser",
+    "roles/storage.admin"
   ]
 }
 

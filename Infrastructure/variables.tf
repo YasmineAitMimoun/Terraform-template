@@ -11,3 +11,7 @@ variable zone {
   description = "Zone where the project will be hosted"
   default ="europe-west1-b"
 }
+
+variable service_account {
+  default = "vm-creator@myecosystemdevv.iam.gserviceaccount.com"
+}
