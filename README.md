@@ -17,78 +17,51 @@ The infrastructure is divided into **two stacks**:
 
 ## Architecture
 
-Simplified architecture:
+architecture:
+  stack1_project_service_accounts:
+    description: "Project and Service Accounts"
+    deployed_by: "Personal User"
+    resources:
+      gcp_folder:
+        projects:
+          gcp_project:
+            apis_enabled:
+              - cloud_storage
+              - compute_engine
+              - bigquery
+            service_accounts:
+              app_service_account:
+                permissions:
+                  - roles/bigquery.dataViewer
+                  - roles/bigquery.jobUser
+                  - roles/storage.bucketViewer
+              admin_service_account:
+                permissions:
+                  - roles/compute.instanceAdmin.v1
+                  - roles/iam.serviceAccountUser
+                  - roles/storage.admin
+                can_impersonate:
+                  - app_service_account
 
-Stack 1 – Project and Service Accounts
+  stack2_vm_bucket:
+    description: "VMs and Cloud Storage Buckets"
+    deployed_by: "Admin SA from Stack 1 (impersonation)"
+    resources:
+      gcp_project: "Created in Stack 1"
+      vm:
+        name: "debian-12-e2-micro"
+        service_account: "app_service_account"
+      cloud_storage_bucket:
+        region: "EU"
+        storage_class: "Standard"
 
-GCP Folder
- └─ GCP Project
-     ├─ APIs Enabled
-     │   ├─ Cloud Storage
-     │   ├─ Compute Engine
-     │   └─ BigQuery
-     └─ Service Accounts
-         ├─ App Service Account
-         │   └─ Permissions: 
-         │       - BigQuery Data Viewer
-         │       - BigQuery Job User
-         │       - Cloud Storage Bucket Viewer
-         └─ Admin Service Account
-             └─ Permissions:
-                 - Compute Instance Admin
-                 - IAM Service Account User
-                 - Storage Admin
-             └─ Can impersonate App SA for resource creation
-
-Stack 2 – VMs and Buckets
-
-GCP Project (from Stack 1)
- ├─ Debian 12 VM (e2-micro)
- │    └─ Uses App SA for authentication
- └─ Cloud Storage Bucket
-      └─ Region: EU
-      └─ Storage Class: Standard
-
-
-**Key principles:**  
-- Stack 1 manages critical resources (project, service accounts, APIs).  
-- Stack 2 manages application resources (VMs, buckets) using impersonation of the Admin SA.  
-- Stacks are independent to simplify versioning and maintenance.
-
----
-
-## Folder Structure
-
-terraform-gcp-data-infra/
-├── README.md
-├── stack1_project_sa/
-│   ├── main.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│   ├── versions.tf
-│   └── modules/
-│       ├── project_folder/
-│       │   ├── main.tf
-│       │   ├── variables.tf
-│       │   └── outputs.tf
-│       └── service_accounts/
-│           ├── main.tf
-│           ├── variables.tf
-│           └── outputs.tf
-├── stack2_vm_bucket/
-│   ├── main.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│   ├── versions.tf
-│   └── modules/
-│       ├── vm_instance/
-│       │   ├── main.tf
-│       │   ├── variables.tf
-│       │   └── outputs.tf
-│       └── storage_bucket/
-│           ├── main.tf
-│           ├── variables.tf
-│           └── outputs.tf
-└── scripts/
-    └── bootstrap.sh
-
+deployment_flow:
+  - step: 1
+    action: "Personal User deploys Stack 1"
+    result: "Project + Service Accounts created"
+  - step: 2
+    action: "Admin SA from Stack 1 impersonates to deploy Stack 2"
+    result: "VM + Bucket created"
+  - step: 3
+    action: "App SA is used by VM"
+    result: "Access BigQuery and Cloud Storage"
