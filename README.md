@@ -20,26 +20,34 @@ The infrastructure is divided into **two stacks**:
 Simplified architecture:
 
 Stack 1 – Project and Service Accounts
-┌─────────────────────────────┐
-│ GCP Folder │
-│ └── GCP Project │
-│ ├─ APIs enabled │
-│ │ ├─ Cloud Storage │
-│ │ ├─ Compute Engine │
-│ │ └─ BigQuery │
-│ └─ Service Accounts │
-│ ├─ App SA │ <-- read access to BigQuery & Storage
-│ └─ Admin SA │ <-- creates VMs/buckets, manages App SA via impersonation
-└─────────────────────────────┘
+
+GCP Folder
+ └─ GCP Project
+     ├─ APIs Enabled
+     │   ├─ Cloud Storage
+     │   ├─ Compute Engine
+     │   └─ BigQuery
+     └─ Service Accounts
+         ├─ App Service Account
+         │   └─ Permissions: 
+         │       - BigQuery Data Viewer
+         │       - BigQuery Job User
+         │       - Cloud Storage Bucket Viewer
+         └─ Admin Service Account
+             └─ Permissions:
+                 - Compute Instance Admin
+                 - IAM Service Account User
+                 - Storage Admin
+             └─ Can impersonate App SA for resource creation
 
 Stack 2 – VMs and Buckets
-┌─────────────────────────────┐
-│ GCP Project (from Stack 1) │
-│ ├─ Debian 12 VM (e2-micro) │
-│ │ └─ uses App SA │
-│ └─ Cloud Storage Bucket │
-│ └─ Region: EU, Class: Standard │
-└─────────────────────────────┘
+
+GCP Project (from Stack 1)
+ ├─ Debian 12 VM (e2-micro)
+ │    └─ Uses App SA for authentication
+ └─ Cloud Storage Bucket
+      └─ Region: EU
+      └─ Storage Class: Standard
 
 
 **Key principles:**  
@@ -54,33 +62,33 @@ Stack 2 – VMs and Buckets
 terraform-gcp-data-infra/
 ├── README.md
 ├── stack1_project_sa/
-│ ├── main.tf # Project and service account resources
-│ ├── variables.tf # Input variables
-│ ├── outputs.tf # Outputs (IDs, SA emails)
-│ ├── versions.tf # Terraform & provider versions
-│ └── modules/
-│ ├── project_folder/
-│ │ ├── main.tf
-│ │ ├── variables.tf
-│ │ └── outputs.tf
-│ └── service_accounts/
-│ ├── main.tf
-│ ├── variables.tf
-│ └── outputs.tf
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   ├── versions.tf
+│   └── modules/
+│       ├── project_folder/
+│       │   ├── main.tf
+│       │   ├── variables.tf
+│       │   └── outputs.tf
+│       └── service_accounts/
+│           ├── main.tf
+│           ├── variables.tf
+│           └── outputs.tf
 ├── stack2_vm_bucket/
-│ ├── main.tf # VM and bucket resources
-│ ├── variables.tf
-│ ├── outputs.tf
-│ ├── versions.tf
-│ └── modules/
-│ ├── vm_instance/
-│ │ ├── main.tf
-│ │ ├── variables.tf
-│ │ └── outputs.tf
-│ └── storage_bucket/
-│ ├── main.tf
-│ ├── variables.tf
-│ └── outputs.tf
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   ├── versions.tf
+│   └── modules/
+│       ├── vm_instance/
+│       │   ├── main.tf
+│       │   ├── variables.tf
+│       │   └── outputs.tf
+│       └── storage_bucket/
+│           ├── main.tf
+│           ├── variables.tf
+│           └── outputs.tf
 └── scripts/
-└── bootstrap.sh # Optional utility script for Terraform initialization
+    └── bootstrap.sh
 
