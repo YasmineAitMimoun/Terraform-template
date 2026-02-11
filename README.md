@@ -1,4 +1,4 @@
-# Terraform GCP Infrastructure for Data Engineering
+# Terraform GCP Infrastructure
 
 This repository contains Terraform code to provision **Google Cloud Platform (GCP)** resources in a structured and secure manner, following best practices for service accounts, IAM roles, and resource organization. The infrastructure is organized into two stacks, each composed of multiple modules, to ensure modularity, reusability, and separation of concerns.
 
