@@ -1,67 +1,63 @@
-# Terraform GCP Infrastructure
+# 🌐 Terraform GCP Infrastructure
 
-This repository contains Terraform code to provision **Google Cloud Platform (GCP)** resources in a structured and secure manner, following best practices for service accounts, IAM roles, and resource organization. The infrastructure is organized into two stacks, each composed of multiple modules, to ensure modularity, reusability, and separation of concerns.
+This project uses **Terraform** to provision resources on **Google Cloud Platform (GCP)** in a **modular, secure, and reusable** way.  
+It follows best practices for **service accounts**, **IAM roles**, and resource organization.
+
+The infrastructure is organized into **2 stacks** to separate foundational setup from workload deployment.
 
 ---
 
-## Stack Overview
+## 📦 Stack Overview
 
-### Stack 1 – Project & Service Account Setup
+### **Stack 1 – Project & Service Account Setup**
 
-**Purpose:** Set up foundational GCP resources, including projects, folders, and service accounts with appropriate IAM roles.
+**Purpose:** Create the GCP foundations: projects, folders, and service accounts with appropriate IAM roles.
 
-**Modules:**
+#### Modules
 
-#### Project & Folder Module
-- Creates a GCP folder and a project within that folder.
+**1️⃣ Project & Folder Module**
+- Creates a **GCP folder** and a **project** within it.
 - Enables essential APIs:
   - Cloud Storage
   - Compute Engine
   - BigQuery
 
-#### Service Accounts Module
-- Creates two service accounts (SAs):
+**2️⃣ Service Accounts Module**
+- Creates **2 service accounts**:
 
-1. **Application SA** – used by VMs to authenticate and access data.  
-   **Roles:**
-   - `roles/bigquery.dataViewer` – read access to BigQuery datasets
-   - `roles/bigquery.jobUser` – execute queries in BigQuery
-   - `roles/storage.bucketViewer` – read access to Cloud Storage buckets
+| Service Account | Purpose | IAM Roles |
+|-----------------|--------|-----------|
+| **Application SA** | Authenticate VMs and access data | `roles/bigquery.dataViewer`, `roles/bigquery.jobUser`, `roles/storage.bucketViewer` |
+| **Admin SA** | Create VMs and buckets | `roles/compute.instanceAdmin.v1`, `roles/iam.serviceAccountUser`, `roles/storage.admin` |
 
-2. **Admin SA** – used to create VMs and storage buckets.  
-   **Roles:**
-   - `roles/compute.instanceAdmin.v1` – create VM instances
-   - `roles/iam.serviceAccountUser` – assign service accounts to VMs
-   - `roles/storage.admin` – create and manage Cloud Storage buckets
+- Configures necessary **IAM permissions**.
+- Enables **impersonation** of the Admin SA for Stack 2 operations.
 
-- Grants necessary IAM permissions for each SA to perform its designated tasks.
-- Configures impersonation tokens for the Admin SA to execute Stack 2 operations.
-
-**Authentication for Stack 1:** Use your personal GCP user credentials.
+> 🔑 **Stack 1 Authentication:** Use your personal GCP credentials.
 
 ---
 
-### Stack 2 – Compute & Storage Deployment
+### **Stack 2 – Compute & Storage Deployment**
 
 **Purpose:** Deploy data workloads using the service accounts created in Stack 1.
 
-**Modules:**
+#### Modules
 
-#### VM Module
-- Creates an `e2-micro` VM instance running Debian 12.
-- Assigns the **Application SA** (from Stack 1) for workload authentication and data access.
+**1️⃣ VM Module**
+- Creates an **e2-micro** VM running Debian 12.
+- Assigns the **Application SA** for authentication and data access.
 
-#### Bucket Module
-- Creates a Cloud Storage bucket in the **EU region** within the project provisioned in Stack 1.
+**2️⃣ Bucket Module**
+- Creates a **Cloud Storage bucket** in the **EU region**.
 - Storage class: Standard.
 
-**Authentication for Stack 2:** Uses service account impersonation with the **Admin SA** to provision resources securely.
+> 🔑 **Stack 2 Authentication:** Uses **Admin SA impersonation** for secure resource provisioning.
 
 ---
 
-## Usage
+## ⚙️ Prerequisites
 
-### Prerequisites
-- Terraform >= 1.5
-- GCP project with sufficient permissions
-- `gcloud` CLI configured with authentication
+- Terraform >= 1.5  
+- GCP account with sufficient permissions  
+- `gcloud` CLI configured for authentication  
+
