@@ -88,5 +88,5 @@ Run this stack using your personal GCP credentials:
 ```bash
 cd stacks/bootstrap
 terraform init
-explort  export TF_VAR_billing_account="XXXXXX-XXXXXX-XXXXXX"
+export TF_VAR_billing_account="XXXXXX-XXXXXX-XXXXXX"
 terraform apply -var-file="bootstrap.tfvars" -var-file="bootstrap_secret.tfvars"
