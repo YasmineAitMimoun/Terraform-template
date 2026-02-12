@@ -1,0 +1,17 @@
+#Terraform files
+./stacks/env/.terraform.lock.hcl
+./stacks/env/terraform.tfstate
+./stacks/env/terraform.tfstate.backup
+./stacks/bootstrap/terraform.tfstate
+./stacks/bootstrap/.terraform.lock.hcl
+./stacks/bootstrap/.terraform/
+./stacks/bootstrap/terraform.tfstate.backup
+./stacks/bootstrap/bootstrap_secret.tfvars
+
+#Venv
+.venv/
+
+#idea
+.idea/
+
+crash.log
