@@ -84,6 +84,8 @@ This stack deploys:
 ### Authentication
 
 Run this stack using your personal GCP credentials:
+- `TF_VAR_billing_account` must be set to your **GCP Billing Account ID**.
+- `bootstrap_secret.tfvars` must contain the **email address of your GCP user**.
 
 ```bash
 cd stacks/bootstrap
