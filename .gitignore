@@ -1,12 +1,11 @@
 #Terraform files
-stacks/Projet/.terraform
-stacks/Projet/.terraform.lock.hcl
-stacks/Projet/terraform.tfstate
-stacks/Projet/terraform.tfstate.backup
-stacks/Infrastructure/terraform.tfstate
-stacks/Infrastructure/.terraform.lock.hcl
-stacks/Infrastructure/.terraform
-stacks/Infrastructure/terraform.tfstate.backup
+stacks/env/.terraform.lock.hcl
+stacks/env/terraform.tfstate
+stacks/env/terraform.tfstate.backup
+stacks/bootstrap/terraform.tfstate
+stacks/bootstrap/.terraform.lock.hcl
+stacks/bootstrap/.terraform/
+stacks/bootstrap/terraform.tfstate.backup
 stacks/bootstrap/bootstrap_secret.tfvars
 
 #Venv
@@ -14,6 +13,3 @@ stacks/bootstrap/bootstrap_secret.tfvars
 
 #idea
 .idea/
-
-# Credentials
-*.json
