@@ -1,28 +1,34 @@
 # List of Google Cloud services to enable for the project
 variable "service_to_enable" {
-  default = [
-    "compute.googleapis.com",
-    "bigquery.googleapis.com",
-    "storage.googleapis.com"
-  ]
+  type = list
+  description = "List of Google Cloud services to enable for the project"
 }
 
 # Organization ID where the folder and project will be created
 variable "organisation_id" {
-  default = "organizations/454317965945"
+  type = string
+  description = "Organization ID"
 }
 
 # Project ID to use for the new Google Cloud project
 variable "project_id" {
-  default = "myecosystemdevv"
+  type = string
+  description = "Project ID"
 }
 
 # Folder Name
 variable "folder_name" {
-  default = "folder_template"
+  type = string
+  description = "Folder Name"
 }
 
 # Project Name
 variable "project_name" {
-  default = "myecosystemdev"
+  type = string
+  description = "Project name"
+}
+
+variable "billing_account" {
+  description = "Billing account GCP pour le projet"
+  type        = string
 }

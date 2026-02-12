@@ -1,7 +1,7 @@
 organisation_id = "organizations/454317965945"
-folder_name = "folder_template"
-project_id = "myecosystemdevv"
-project_name = "myecosystemdev"
+folder_name = "Folder_template"
+project_id = "projecttemplate2022"
+project_name = "ProjectTemplate"
 account_id_data_loader = "vm-data-loader"
 account_id_creator = "infra-creator"
 roles_data_loader = [
@@ -14,7 +14,10 @@ roles_infra_creator = [
     "roles/iam.serviceAccountUser",
     "roles/storage.admin"
   ]
-user_role = "roles/iam.serviceAccountTokenCreator"
+user_roles_on_project = [
+  "roles/iam.serviceAccountAdmin"
+    ]
+user_role_on_service_account = "roles/iam.serviceAccountTokenCreator"
 service_to_enable = [
     "compute.googleapis.com",
     "bigquery.googleapis.com",

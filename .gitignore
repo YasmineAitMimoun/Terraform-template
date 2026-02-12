@@ -1,18 +1,19 @@
 #Terraform files
-Projet/.terraform
-Projet/.terraform.lock.hcl
-Projet/terraform.tfstate
-Projet/terraform.tfstate.backup
-Infrastructure/terraform.tfstate
-Infrastructure/.terraform.lock.hcl
-Infrastructure/.terraform
+stacks/Projet/.terraform
+stacks/Projet/.terraform.lock.hcl
+stacks/Projet/terraform.tfstate
+stacks/Projet/terraform.tfstate.backup
+stacks/Infrastructure/terraform.tfstate
+stacks/Infrastructure/.terraform.lock.hcl
+stacks/Infrastructure/.terraform
+stacks/Infrastructure/terraform.tfstate.backup
+stacks/bootstrap/bootstrap_secret.tfvars
 
 #Venv
 .venv/
 
 #idea
 .idea/
-.idea/inspectionProfiles/
 
 # Credentials
 *.json

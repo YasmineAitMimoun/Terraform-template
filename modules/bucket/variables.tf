@@ -1,19 +1,21 @@
 variable "project_id" {
-  type = "string"
-  default = "myecosystemdevv"
+  type = string
+  description = "Project id  of the bucket"
 }
 
 variable "bucket_name" {
-  type = "string"
-  default = "ecoanalytics_data_bucket"
+  type = string
+  description = "unique name of the bucket"
 }
 
 variable "location" {
-  type = "string"
+  type = string
+  description = "Location where to store the bucket"
   default = "EU"
 }
 
 variable "storage_class" {
-  type = "string"
+  type = string
+  description = "Bucket storage class"
   default = "STANDARD"
 }

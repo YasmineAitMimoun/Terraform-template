@@ -38,7 +38,7 @@ variable "user_email" {
 }
 
 # User rôle for impersonation
-variable "user_role" {
+variable "user_role_on_service_account" {
   type = string
   description = "Roles to assign to the user for impersonation on the SA (token creator)"
 }
@@ -70,4 +70,9 @@ variable "folder_name" {
 variable "project_name" {
   type = string
   description = "Project name"
+}
+
+variable "user_roles_on_project" {
+  type = list
+  description = "Roles to assign to my user to create service accounts"
 }

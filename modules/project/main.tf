@@ -11,6 +11,7 @@ resource "google_project" "Project_template" {
   project_id = var.project_id
   folder_id = google_folder.folder_template.id
   deletion_policy = "DELETE"
+  billing_account = var.billing_account
   lifecycle {
     ignore_changes = [
       billing_account
@@ -18,9 +19,16 @@ resource "google_project" "Project_template" {
   }
 }
 
+# Wait for GCP project creation to fully propagate.
+resource "time_sleep" "wait_after_project_creation" {
+  depends_on      = [google_project.Project_template]
+  create_duration = "30s"
+}
+
 # Enable specified services/APIs for the project
 resource "google_project_service" "Enable_Services" {
   for_each = toset(var.service_to_enable)
   project = var.project_id
   service = each.value
+  depends_on = [time_sleep.wait_after_project_creation]
 }

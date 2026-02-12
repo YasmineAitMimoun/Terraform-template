@@ -1,1 +1,0 @@
-user_email = "user:94didilo@gmail.com"
