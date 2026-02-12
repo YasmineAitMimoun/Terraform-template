@@ -1,63 +1,92 @@
 # Terraform GCP Infrastructure
 
-This project uses **Terraform** to provision resources on **Google Cloud Platform (GCP)** in a **modular, secure, and reusable** way.  
-It follows best practices for **service accounts**, **IAM roles**, and resource organization.
+This project uses **Terraform** to provision resources on **Google Cloud Platform (GCP)** in a **modular, secure, and reusable** way.
 
-The infrastructure is organized into **2 stacks** to separate foundational setup from workload deployment.
+It follows best practices for:
+
+- Modular architecture  
+- IAM least-privilege principles  
+- Service account separation  
+- Environment isolation  
+
+The infrastructure is organized into:
+
+- **Reusable modules** (`/modules`)
+- **Two independent stacks** (`/stacks/bootstrap` and `/stacks/env`)
 
 ---
 
-## Stack Overview
 
-### **Stack 1 – Project & Service Account Setup**
+---
 
-**Purpose:** Create the GCP foundations: projects, folders, and service accounts with appropriate IAM roles.
+# Modules
 
-#### Modules
+The `modules/` directory contains reusable building blocks.
 
-**1️⃣ Project & Folder Module**
-- Creates a **GCP folder** and a **project** within it.
-- Enables essential APIs:
+## 1️⃣ project
+
+- Creates:
+  - GCP Folder
+  - GCP Project
+- Enables required APIs:
   - Cloud Storage
   - Compute Engine
   - BigQuery
 
-**2️⃣ Service Accounts Module**
-- Creates **2 service accounts**:
+---
+
+## 2️⃣ principals
+
+- Creates service accounts
+- Assigns IAM roles
+- Configures impersonation permissions
+
+---
+
+## 3️⃣ vm
+
+- Creates a Compute Engine VM
+- Configurable machine type
+- Attaches a Service Account
+
+---
+
+## 4️⃣ bucket
+
+- Creates a Cloud Storage bucket
+- Configurable region
+- Configurable storage class
+
+---
+
+# 🏗 Stacks
+
+## 🔹 Stack 1 – `stacks/bootstrap`
+
+**Purpose:** Provision foundational infrastructure.
+
+This stack deploys:
+
+- Folder  
+- Project  
+- APIs  
+- Service Accounts  
+- IAM bindings  
+- SA impersonation permissions  
+
+### Service Accounts Created
 
 | Service Account | Purpose | IAM Roles |
-|-----------------|--------|-----------|
-| **Application SA** | Authenticate VMs and access data | `roles/bigquery.dataViewer`, `roles/bigquery.jobUser`, `roles/storage.bucketViewer` |
-| **Admin SA** | Create VMs and buckets | `roles/compute.instanceAdmin.v1`, `roles/iam.serviceAccountUser`, `roles/storage.admin` |
+|-----------------|----------|-----------|
+| **Application SA** | Used by workloads (VMs) | `roles/bigquery.dataViewer`, `roles/bigquery.jobUser`, `roles/storage.bucketViewer` |
+| **Admin SA** | Provisions infrastructure | `roles/compute.instanceAdmin.v1`, `roles/iam.serviceAccountUser`, `roles/storage.admin` |
 
-- Configures necessary **IAM permissions**.
-- Enables **impersonation** of the Admin SA for Stack 2 operations.
+### Authentication
 
-> **Stack 1 Authentication:** Use your personal GCP credentials.
+Run this stack using your personal GCP credentials:
 
----
-
-### **Stack 2 – Compute & Storage Deployment**
-
-**Purpose:** Deploy data workloads using the service accounts created in Stack 1.
-
-#### Modules
-
-**1️⃣ VM Module**
-- Creates an **e2-micro** VM running Debian 12.
-- Assigns the **Application SA** for authentication and data access.
-
-**2️⃣ Bucket Module**
-- Creates a **Cloud Storage bucket** in the **EU region**.
-- Storage class: Standard.
-
-> **Stack 2 Authentication:** Uses **Admin SA impersonation** for secure resource provisioning.
-
----
-
-## Prerequisites
-
-- Terraform >= 1.5  
-- GCP account with sufficient permissions  
-- `gcloud` CLI configured for authentication  
-
+```bash
+cd stacks/bootstrap
+terraform init
+explort  export TF_VAR_billing_account="XXXXXX-XXXXXX-XXXXXX"
+terraform apply -var-file="bootstrap.tfvars" -var-file="bootstrap_secret.tfvars"
