@@ -5,7 +5,7 @@ variable "account_id_data_loader" {
 
 # ID to assign to the service account responsible for creating service account
 variable "account_id_creator" {
-  default = "vm-creator"
+  default = "infra-creator"
 }
 
 # Roles to assign to the service account
@@ -18,7 +18,7 @@ variable "roles_data_loader"{
 }
 
 # Roles to assign to the service account
-variable "roles_vm_creator" {
+variable "roles_infra_creator" {
   default = [
     "roles/compute.instanceAdmin.v1",
     "roles/iam.serviceAccountUser",
@@ -29,4 +29,8 @@ variable "roles_vm_creator" {
 # Project ID
 variable "project_id" {
   default = "myecosystemdevv"
+}
+
+variable "user_email" {
+  default = "user:94didilo@gmail.com"
 }

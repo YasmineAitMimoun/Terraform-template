@@ -19,7 +19,17 @@ variable service_account {
   default ="vm-data-loader@myecosystemdevv.iam.gserviceaccount.com"
 }
 
+# Virtual machine name
+variable "vm_name" {
+  default = "data-loader-vm"
+}
+
 # Project ID where the VM will be created
 variable "project_id" {
   default = "myecosystemdevv"
+}
+
+# Boot disk configuration (Debian 12 image)
+variable "image" {
+  default = "debian-cloud/debian-12"
 }

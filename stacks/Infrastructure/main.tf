@@ -7,9 +7,9 @@ provider "google" {
 
 # call module to create the VM
 module "VM" {
-  source = "./modules/vm"
+  source = "../../modules/vm"
 }
 
 module "Storage_bucket" {
-  source = "./modules/bucket"
+  source = "../../modules/bucket"
 }

@@ -5,10 +5,10 @@ provider "google" {
 
 # Call module to create the project
 module "project" {
-  source = "./modules/Project"
+  source = "../../modules/project"
 }
 
 #Call module to create Service account
 module "service_account" {
-  source = "./modules/principals"
+  source = "../../modules/principals"
 }

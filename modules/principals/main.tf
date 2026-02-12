@@ -4,8 +4,8 @@ resource "google_service_account" "vm_data_loader" {
   project = var.project_id
 }
 
-# Create a service account for creating virtual machines
-resource "google_service_account" "vm_creator" {
+# Create a service account for creating infrastructure
+resource "google_service_account" "infra_creator" {
   account_id = var.account_id_creator
   project = var.project_id
 }
@@ -20,14 +20,14 @@ resource "google_project_iam_member" "vm_data_loader_roles" {
 
 # Assign roles to the service account vm creator
 resource "google_project_iam_member" "vm_creator_roles" {
-  for_each = toset(var.roles_vm_creator)
-  member  = "serviceAccount:${google_service_account.vm_creator.email}"
+  for_each = toset(var.roles_infra_creator)
+  member  = "serviceAccount:${google_service_account.infra_creator.email}"
   project = var.project_id
   role    = each.value
 }
 
 resource "google_service_account_iam_member" "token_creator" {
-  service_account_id = google_service_account.vm_creator.id
+  service_account_id = google_service_account.infra_creator.id
   role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "user:94didilo@gmail.com"
+  member             = var.user_email
 }

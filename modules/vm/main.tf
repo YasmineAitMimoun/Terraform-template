@@ -1,6 +1,6 @@
 # Debian 12 Virtual Machine
 resource "google_compute_instance" "data-loader-vm" {
-  name = "data-loader-vm"
+  name = var.vm_name
   machine_type = var.machine_type
   zone = var.zone
   project = var.project_id
@@ -8,7 +8,7 @@ resource "google_compute_instance" "data-loader-vm" {
   # Boot disk configuration (Debian 12 image)
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-12"
+      image = var.image
     }
   }
   # Network configuration (default VPC with external IP)
