@@ -1,4 +1,4 @@
-# 🌐 Terraform GCP Infrastructure
+# Terraform GCP Infrastructure
 
 This project uses **Terraform** to provision resources on **Google Cloud Platform (GCP)** in a **modular, secure, and reusable** way.  
 It follows best practices for **service accounts**, **IAM roles**, and resource organization.
@@ -7,7 +7,7 @@ The infrastructure is organized into **2 stacks** to separate foundational setup
 
 ---
 
-## 📦 Stack Overview
+## Stack Overview
 
 ### **Stack 1 – Project & Service Account Setup**
 
@@ -33,7 +33,7 @@ The infrastructure is organized into **2 stacks** to separate foundational setup
 - Configures necessary **IAM permissions**.
 - Enables **impersonation** of the Admin SA for Stack 2 operations.
 
-> 🔑 **Stack 1 Authentication:** Use your personal GCP credentials.
+> **Stack 1 Authentication:** Use your personal GCP credentials.
 
 ---
 
@@ -51,11 +51,11 @@ The infrastructure is organized into **2 stacks** to separate foundational setup
 - Creates a **Cloud Storage bucket** in the **EU region**.
 - Storage class: Standard.
 
-> 🔑 **Stack 2 Authentication:** Uses **Admin SA impersonation** for secure resource provisioning.
+> **Stack 2 Authentication:** Uses **Admin SA impersonation** for secure resource provisioning.
 
 ---
 
-## ⚙️ Prerequisites
+## Prerequisites
 
 - Terraform >= 1.5  
 - GCP account with sufficient permissions  
