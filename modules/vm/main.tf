@@ -22,5 +22,4 @@ resource "google_compute_instance" "data-loader-vm" {
     email  = var.service_account
     scopes = ["cloud-platform"]
   }
-
 }

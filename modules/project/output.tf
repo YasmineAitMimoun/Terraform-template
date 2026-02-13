@@ -1,5 +1,3 @@
-# outputs.tf
-
 # Output the ID of the folder created in the organization
 output "folder_id" {
   value = google_folder.folder_template.id
