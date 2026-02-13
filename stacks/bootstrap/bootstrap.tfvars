@@ -1,15 +1,15 @@
 organisation_id = "organizations/454317965945"
 folder_name = "Folder_template"
-project_id = "projecttemplate2022"
+project_id = "projecttemplate2020"
 project_name = "ProjectTemplate"
-account_id_data_loader = "vm-data-loader"
-account_id_creator = "infra-creator"
-roles_data_loader = [
+service_account_id_data_loader = "vm-data-loader"
+service_account_id_infra_creator = "infra-creator"
+roles_service_account_data_loader = [
     "roles/bigquery.dataViewer",
     "roles/bigquery.jobUser",
     "roles/storage.bucketViewer"
   ]
-roles_infra_creator = [
+roles_service_account_infra_creator = [
     "roles/compute.instanceAdmin.v1",
     "roles/iam.serviceAccountUser",
     "roles/storage.admin"

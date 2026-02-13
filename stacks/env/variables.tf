@@ -44,4 +44,3 @@ variable "bucket_name" {
   type = string
   description = "unique name of the bucket"
 }
-

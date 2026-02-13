@@ -9,27 +9,26 @@ variable "project_id" {
   description = "Project id"
 }
 
-variable "account_id_data_loader" {
+variable "service_account_id_data_loader" {
   type = string
-  description = "ID to assign to the service account responsible for loading data"
+  description = "ID to assign to the service account "
 }
 
-# ID to assign to the service account responsible for creating service account
-variable "account_id_creator" {
+variable "service_account_id_infra_creator" {
   type = string
-  description = "ID to assign to the service account responsible for creating infrastructure"
+  description = "ID to assign to the service account "
 }
 
 # Roles to assign to the service account responsible for loading data
-variable "roles_data_loader"{
+variable "roles_service_account_data_loader"{
   type = list
-  description = "Roles to assign to the service account responsible for loading data"
+  description = "Roles to assign to the service account "
 }
 
-# Roles to assign to the service account responsible for creating infrastructure
-variable "roles_infra_creator" {
+# Roles to assign to the service account responsible for creating infrastructures
+variable "roles_service_account_infra_creator"{
   type = list
-  description = "Roles to assign to the service account responsible for creating infrastructure"
+  description = "Roles to assign to the service account "
 }
 
 variable "user_email" {

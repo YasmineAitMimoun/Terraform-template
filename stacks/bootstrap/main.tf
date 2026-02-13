@@ -14,16 +14,37 @@ module "create_project" {
   service_to_enable = var.service_to_enable
 }
 
-#Call module to create Service account
-module "create_service_account" {
+# Assign roles to my user to create service account vm data loader
+resource "google_project_iam_member" "user_roles_project_lvl" {
+  for_each = toset(var.user_roles_on_project)
+  member  = var.user_email
+  project = var.project_id
+  role    = each.value
+  depends_on = [module.create_project]
+}
+
+#Call module to create Service account responsible for loading data
+module "create_service_account_data_loader" {
   source = "../../modules/principals"
   project_id = var.project_id
-  account_id_data_loader = var.account_id_data_loader
-  account_id_creator = var.account_id_creator
-  roles_data_loader = var.roles_data_loader
-  roles_infra_creator = var.roles_infra_creator
-  user_email = var.user_email
-  user_role_on_service_account = var.user_role_on_service_account
-  user_roles_on_project = var.user_roles_on_project
-  depends_on = [module.create_project]
+  service_account_id = var.service_account_id_data_loader
+  roles_service_account = var.roles_service_account_data_loader
+  depends_on = [google_project_iam_member.user_roles_project_lvl]
+}
+
+#Call module to create Service account responsible for loading data
+module "create_service_account_infra_creator" {
+  source = "../../modules/principals"
+  project_id = var.project_id
+  service_account_id = var.service_account_id_infra_creator
+  roles_service_account = var.roles_service_account_infra_creator
+  depends_on = [google_project_iam_member.user_roles_project_lvl]
+}
+
+# Assign role to the user for impersonation
+resource "google_service_account_iam_member" "token_creator" {
+  service_account_id = module.create_service_account_infra_creator.service_account_id
+  role               = var.user_role_on_service_account
+  member             = var.user_email
+  depends_on = [module.create_service_account_infra_creator]
 }

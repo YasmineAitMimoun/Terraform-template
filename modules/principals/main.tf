@@ -1,42 +1,16 @@
-# Assign roles to my user to create service account vm data loader
-resource "google_project_iam_member" "user_roles_project_lvl" {
-  for_each = toset(var.user_roles_on_project)
-  member  = var.user_email
-  project = var.project_id
-  role    = each.value
-}
-
-# Create a service account for loading data on the virtual machine
-resource "google_service_account" "vm_data_loader" {
-  account_id = var.account_id_data_loader
+# Create a service account
+resource "google_service_account" "service_account" {
+  account_id = var.service_account_id
   project = var.project_id
 }
 
-# Create a service account for creating infrastructure
-resource "google_service_account" "infra_creator" {
-  account_id = var.account_id_creator
-  project = var.project_id
-}
 
-# Assign roles to the service account vm data loader
+# Assign roles to the service account
 resource "google_project_iam_member" "vm_data_loader_roles" {
-  for_each = toset(var.roles_data_loader)
-  member  = "serviceAccount:${google_service_account.vm_data_loader.email}"
+  for_each = toset(var.roles_service_account)
+  member  = "serviceAccount:${google_service_account.service_account.email}"
   project = var.project_id
   role    = each.value
 }
 
-# Assign roles to the service account vm creator
-resource "google_project_iam_member" "vm_creator_roles" {
-  for_each = toset(var.roles_infra_creator)
-  member  = "serviceAccount:${google_service_account.infra_creator.email}"
-  project = var.project_id
-  role    = each.value
-}
 
-# Assign role to the user for impersonation
-resource "google_service_account_iam_member" "token_creator" {
-  service_account_id = google_service_account.infra_creator.id
-  role               = var.user_role_on_service_account
-  member             = var.user_email
-}
