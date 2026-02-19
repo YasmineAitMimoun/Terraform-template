@@ -2,14 +2,20 @@
 provider "google" {
   region = var.region
 }
+
+# Call module to create the folder
+module "create_folder" {
+  source = "../../modules/folder"
+  folder_name = var.folder_name
+  organisation_id = var.organisation_id
+}
 ##################################### Main project ##################################
 
 # Call module to create the project
 module "create_project" {
   source = "../../modules/project"
-  folder_name = var.folder_name
+  folder_id = module.create_folder.folder_id
   billing_account = var.billing_account
-  organisation_id = var.organisation_id
   project_id = var.project_id
   project_name = var.project_name
   service_to_enable = var.service_to_enable
@@ -56,9 +62,8 @@ resource "google_service_account_iam_member" "user_token_creator" {
 # Call module to create the project
 module "create_project_backend" {
   source = "../../modules/project"
-  folder_name = var.folder_name
+  folder_id = module.create_folder.folder_id
   billing_account = var.billing_account
-  organisation_id = var.organisation_id
   project_id = var.project_id_backend
   project_name = var.project_name_backend
   service_to_enable = var.service_to_enable_backend_tf
@@ -86,7 +91,7 @@ module "create_service_account_storage" {
 resource "google_service_account_iam_member" "SA_token_creator" {
   service_account_id = module.create_service_account_storage.service_account_id
   role               = var.token_creator_role_impersonation
-  member             = module.create_service_account_infra_creator.service_account_email
+  member             = "serviceAccount:${module.create_service_account_infra_creator.service_account_email}"
   depends_on = [module.create_service_account_storage]
 }
 
@@ -95,4 +100,5 @@ module "Storage_bucket" {
   source = "../../modules/bucket"
   project_id = var.project_id_backend
   bucket_name = var.bucket_name
+  depends_on = [module.create_project_backend]
 }

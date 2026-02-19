@@ -6,7 +6,7 @@ user_roles_on_project = [
 token_creator_role_impersonation = "roles/iam.serviceAccountTokenCreator"
 
 ###################################### Main project #######################################
-project_id = "projecttemplate2020"
+project_id = "projecttemplate2019"
 project_name = "ProjectTemplate"
 service_account_id_data_loader = "vm-data-loader"
 service_account_id_infra_creator = "infra-creator"
@@ -28,13 +28,13 @@ service_to_enable = [
 
 ##################################### Project for backend state ##############################
 
-project_id_backend = "projecttemplate2020_backend_tf"
-project_name_backend = "ProjectTemplate_backend_tf"
-service_account_id_state_manager = "state_manager"
+project_id_backend = "projecttemplate2029-backend-tf"
+project_name_backend = "ProjectTemplate-backend-tf"
+service_account_id_state_manager = "state-manager"
 roles_service_account_state_manager = [
     "roles/storage.admin"
   ]
 service_to_enable_backend_tf = [
     "storage.googleapis.com"
   ]
-bucket_name = "backend_tf_bucket"
+bucket_name = "backend-tf-bucket"

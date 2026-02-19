@@ -1,16 +1,16 @@
 # Output the ID of the folder created in the organization
 output "folder_id" {
-  value = module.create_project.folder_id
+  value = module.create_folder.folder_id
 }
 
 # Output the display name of the folder
 output "folder_display_name" {
-  value = module.create_project.folder_display_name
+  value = module.create_folder.folder_display_name
 }
 
 # Output the parent organization ID of the folder
 output "folder_parent_id" {
-  value = module.create_project.folder_parent_id
+  value = module.create_folder.folder_parent_id
 }
 
 # Output the ID of the project created inside the folder

@@ -1,7 +1,0 @@
-project_id = "projecttemplate2022"
-bucket_name = "ecoanalytics_data_bucket"
-zone ="europe-west1-b"
-machine_type ="e2-micro"
-service_account ="vm-data-loader@myecosystemdevv.iam.gserviceaccount.com"
-vm_name = "data-loader-vm"
-image = "debian-cloud/debian-12"
