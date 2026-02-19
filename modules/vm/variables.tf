@@ -31,16 +31,5 @@ variable "project_id" {
 # Boot disk configuration (Debian 12 image)
 variable "image" {
   type = string
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   description = "Boot disk configuration (Debian 12 image)"
 }
-
-=======
-  description = "Boot disk configuration"
-}
->>>>>>> Stashed changes
-=======
-  description = "Boot disk configuration"
-}
->>>>>>> Stashed changes

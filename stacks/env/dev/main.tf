@@ -14,7 +14,6 @@ module "VM" {
   service_account = var.SA_email_data_loader
   vm_name = var.vm_name
   zone = var.zone
-
 }
 
 module "Storage_bucket" {
