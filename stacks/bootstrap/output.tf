@@ -1,11 +1,3 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-# Output the email of the VM data loader service account
-output "vm_data_loader_email" {
-  value = module.create_service_account_data_loader.service_account_email
-=======
-=======
->>>>>>> Stashed changes
 # Output the ID of the folder created in the organization
 output "folder_id" {
   value = module.create_project.folder_id
@@ -38,48 +30,20 @@ output "project_number" {
 
 # Output the email of the VM data loader service account
 output "vm_data_loader_email" {
-  value = module.create_service_account.vm_data_loader_email
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+  value = module.create_service_account_data_loader.service_account_email
 }
 
 # Output the ID of the VM data loader service account
 output "vm_data_loader_id" {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   value = module.create_service_account_data_loader.service_account_id
-=======
-  value = module.create_service_account.vm_data_loader_id
->>>>>>> Stashed changes
-=======
-  value = module.create_service_account.vm_data_loader_id
->>>>>>> Stashed changes
 }
 
 # Output the email of the infrastructure creator service account
 output "infra_creator_email" {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   value = module.create_service_account_infra_creator.service_account_email
-=======
-  value = module.create_service_account.infra_creator_email
->>>>>>> Stashed changes
-=======
-  value = module.create_service_account.infra_creator_email
->>>>>>> Stashed changes
 }
 
 # Output the ID of the infrastructure creator service account
 output "infra_creator_id" {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   value = module.create_service_account_infra_creator.service_account_id
-=======
-  value = module.create_service_account.infra_creator_id
->>>>>>> Stashed changes
-=======
-  value = module.create_service_account.infra_creator_id
->>>>>>> Stashed changes
 }

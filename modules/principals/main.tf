@@ -6,7 +6,7 @@ resource "google_service_account" "service_account" {
 
 
 # Assign roles to the service account
-resource "google_project_iam_member" "vm_data_loader_roles" {
+resource "google_project_iam_member" "sa_roles" {
   for_each = toset(var.roles_service_account)
   member  = "serviceAccount:${google_service_account.service_account.email}"
   project = var.project_id
