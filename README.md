@@ -96,7 +96,7 @@ Le projet utilise un **backend Terraform sur GCS** pour le state :
 
 ```bash
 cd stacks/bootstrap
-export TF_VAR_billing_account="XXXXXX-"XXXXXX-"XXXXXX"
+export TF_VAR_billing_account="XXXXXX-XXXXXX-XXXXXX"
 terraform init
 terraform plan -var-file="bootstrap.tfvars"  -var-file="bootstrap_secret.tfvars" 
 terraform apply -var-file="bootstrap.tfvars"  -var-file="bootstrap_secret.tfvars" 
