@@ -15,7 +15,7 @@ L’objectif est de démontrer une approche professionnelle, avec séparation de
 * Mettre en place un backend Terraform distant pour l’état partagé
 * Préparer le projet pour intégration CI/CD
 
-Ce repository sert de **projet vitrine / Cloud Engineer**.
+Ce repository sert de **projet vitrine Cloud Data Engineer**.
 
 ---
 
@@ -31,15 +31,14 @@ Ce repository sert de **projet vitrine / Cloud Engineer**.
 ├── stacks/
 │   ├── bootstrap/
 │   └── env/
-└── versions.tf
 ```
 
 ### Modules
-
+* **folder** → création d’un dossier GCP
 * **project** → création d’un projet GCP + activation des APIs
-* **principals** → comptes de service et IAM
-* **vm** → VM Compute Engine
-* **bucket** → Cloud Storage
+* **principals** → création d'un service account + donner des droits au SA
+* **vm** → création d'une VM Compute Engine
+* **bucket** → création d'un bucket cloud Storage
 
 Chaque module est isolé et réutilisable, facilitant la maintenance et l’évolution de l’infrastructure.
 
@@ -51,11 +50,14 @@ Chaque module est isolé et réutilisable, facilitant la maintenance et l’évo
 
 Initialise la fondation :
 
-* Création du projet et du dossier GCP
-* Activation des APIs essentielles
-* Création des comptes de service
-* Attribution des rôles IAM
-* Configuration de l’impersonation
+  * Création d’un dossier GCP
+  * Création d’un projet principal ainsi que d’un projet dédié au backend Terraform (state)
+  * Création d’un bucket sur le projet principal ainsi que d’un bucket dans le projet dédié au backend Terraform (state)
+  * Activation des APIs essentielles
+  * Création de comptes de service pour le projet principal et d’un compte de service dédié au projet backend
+  * Attribution des rôles IAM à mon utilisateur ainsi qu’aux comptes de service
+  * Configuration de l’impersonation des comptes de service
+
 
 #### Environnements
 
@@ -73,11 +75,10 @@ La séparation Bootstrap / Environnements permet :
 
 ### Prérequis
 
-* Terraform ≥ 1.4
-* Compte GCP avec billing activé
+* Terraform v1.5.7
 * Permissions suffisantes pour créer projets et gérer IAM
 
-Authentification recommandée :
+Authentification recommandée pour lancer le bootstrap:
 
 ```bash
 gcloud auth application-default login
@@ -95,25 +96,30 @@ Le projet utilise un **backend Terraform sur GCS** pour le state :
 
 ```bash
 cd stacks/bootstrap
+export TF_VAR_billing_account="XXXXXX-"XXXXXX-"XXXXXX"
 terraform init
-terraform apply
+terraform plan -var-file="bootstrap.tfvars"  -var-file="bootstrap_secret.tfvars" 
+terraform apply -var-file="bootstrap.tfvars"  -var-file="bootstrap_secret.tfvars" 
 ```
+bootstrap_secret.tfvars contient la valeur de la variable user_email
 
 ### Environnement
 
 ```bash
 cd stacks/env
 terraform init
-terraform apply
+terraform plan -var-file="dev.tfvars" 
+terraform apply -var-file="dev.tfvars" 
 ```
 
 ---
 
 ## 🔐 Bonnes pratiques appliquées
 
-### Backend distant & workflow collaboratif
+### Backend distant & workflow collaboratif pour les states des environnements dev, staging et prod
 
 * Stockage du state sur bucket GCS avec verrouillage
+* Versionning activé sur le bucket GCS
 * Multi-utilisateur / multi-branches prêt pour CI/CD
 
 ### Architecture modulaire
