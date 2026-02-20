@@ -1,94 +1,167 @@
-# Terraform GCP Infrastructure
+# Terraform GCP Foundation
 
-This project uses **Terraform** to provision resources on **Google Cloud Platform (GCP)** in a **modular, secure, and reusable** way.
+Ce projet est une **fondation d’infrastructure Google Cloud Platform** construite avec Terraform.
+Il a été conçu comme une base **propre, sécurisée et évolutive**, alignée avec les bonnes pratiques d’Infrastructure as Code utilisées en entreprise.
 
-It follows best practices for:
-
-- Modular architecture  
-- IAM least-privilege principles  
-- Service account separation  
-- Environment isolation  
-
-The infrastructure is organized into:
-
-- **Reusable modules** (`/modules`)
-- **Two independent stacks** (`/stacks/bootstrap` and `/stacks/env`)
+L’objectif est de démontrer une approche professionnelle, avec séparation des responsabilités, gestion IAM rigoureuse, backend distant et préparation CI/CD.
 
 ---
 
+## 🎯 Objectifs
+
+* Créer une fondation GCP modulaire et maintenable
+* Séparer la configuration de la fondation des environnements applicatifs
+* Appliquer des principes de sécurité IAM (least privilege, comptes dédiés)
+* Mettre en place un backend Terraform distant pour l’état partagé
+* Préparer le projet pour intégration CI/CD
+
+Ce repository sert de **projet vitrine DevOps / Cloud Engineer**.
 
 ---
 
-# Modules
+## 🗂 Structure du repository
 
-The `modules/` directory contains reusable building blocks.
+```
+.
+├── modules/
+│   ├── project/
+│   ├── principals/
+│   ├── vm/
+│   └── bucket/
+├── stacks/
+│   ├── bootstrap/
+│   └── env/
+└── versions.tf
+```
 
-## 1️⃣ project
+### Modules
 
-- Creates:
-  - GCP Folder
-  - GCP Project
-- Enables required APIs:
-  - Cloud Storage
-  - Compute Engine
-  - BigQuery
+* **project** → création d’un projet GCP + activation des APIs
+* **principals** → comptes de service et IAM
+* **vm** → VM Compute Engine
+* **bucket** → Cloud Storage
 
----
-
-## 2️⃣ principals
-
-- Creates service accounts
-- Assigns IAM roles
-- Configures impersonation permissions
-
----
-
-## 3️⃣ vm
-
-- Creates a Compute Engine VM
-- Configurable machine type
-- Attaches a Service Account
+Chaque module est isolé et réutilisable, facilitant la maintenance et l’évolution de l’infrastructure.
 
 ---
 
-## 4️⃣ bucket
+### Stacks
 
-- Creates a Cloud Storage bucket
-- Configurable region
-- Configurable storage class
+#### Bootstrap
+
+Initialise la fondation :
+
+* Création du projet et du dossier GCP
+* Activation des APIs essentielles
+* Création des comptes de service
+* Attribution des rôles IAM
+* Configuration de l’impersonation
+
+#### Environnements
+
+Contient les ressources applicatives ou spécifiques (dev, staging, prod).
+
+La séparation Bootstrap / Environnements permet :
+
+* Isolation des responsabilités
+* Limitation des risques
+* Intégration facile avec CI/CD
 
 ---
 
-# 🏗 Stacks
+## 🚀 Déploiement
 
-## 🔹 Stack 1 – `stacks/bootstrap`
+### Prérequis
 
-**Purpose:** Provision foundational infrastructure.
+* Terraform ≥ 1.4
+* Compte GCP avec billing activé
+* Permissions suffisantes pour créer projets et gérer IAM
 
-This stack deploys:
+Authentification recommandée :
 
-- Folder  
-- Project  
-- APIs  
-- Service Accounts  
-- IAM bindings  
-- SA impersonation permissions  
+```bash
+gcloud auth application-default login
+```
 
-### Service Accounts Created
+### Backend distant
 
-| Service Account | Purpose | IAM Roles |
-|-----------------|----------|-----------|
-| **Application SA** | Used by workloads (VMs) | `roles/bigquery.dataViewer`, `roles/bigquery.jobUser`, `roles/storage.bucketViewer` |
-| **Admin SA** | Provisions infrastructure | `roles/compute.instanceAdmin.v1`, `roles/iam.serviceAccountUser`, `roles/storage.admin` |
+Le projet utilise un **backend Terraform sur GCS** pour le state :
 
-### Authentication
+* Verrouillage et partage du state entre utilisateurs
+* Sécurité et traçabilité
+* Prêt pour CI/CD multi-environnements
 
-Run this stack using your personal GCP credentials:
-- `TF_VAR_billing_account` must be set to your **GCP Billing Account ID**.
-- `bootstrap_secret.tfvars` must contain the **email address of your GCP user**.
+### Bootstrap
 
 ```bash
 cd stacks/bootstrap
 terraform init
-export TF_VAR_billing_account="XXXXXX-XXXXXX-XXXXXX"
-terraform apply -var-file="bootstrap.tfvars" -var-file="bootstrap_secret.tfvars"
+terraform apply
+```
+
+### Environnement
+
+```bash
+cd stacks/env
+terraform init
+terraform apply
+```
+
+---
+
+## 🔐 Bonnes pratiques appliquées
+
+### Backend distant & workflow collaboratif
+
+* Stockage du state sur bucket GCS avec verrouillage
+* Multi-utilisateur / multi-branches prêt pour CI/CD
+
+### Architecture modulaire
+
+* Modules isolés et réutilisables
+* Maintenable et évolutif
+* Evite les fichiers Terraform monolithiques
+
+### Séparation Bootstrap / Environnements
+
+* Bootstrap = fondation & IAM
+* Environnements = ressources applicatives
+* Limite les risques et clarifie les responsabilités
+
+### Sécurité & IAM
+
+* Comptes de service dédiés avec rôles minimaux
+* Séparation des responsabilités (infra vs workloads)
+* Gestion des secrets hors du repo
+
+### CI/CD ready
+
+* Structure pensée pour GitHub Actions / GitLab CI / Terraform Cloud
+* Plan et Apply automatisables
+* Intégration rapide dans un pipeline professionnel
+
+---
+
+## 🧠 Compétences démontrées
+
+* Infrastructure as Code (Terraform)
+* Architecture modulaire & landing zone GCP
+* IAM & sécurité cloud
+* Séparation des responsabilités
+* Backend distant & workflow collaboratif
+* Préparation CI/CD
+
+---
+
+## 📌 Axes d’amélioration possibles
+
+* Ajout de linting (`tflint`) et formatage automatique (`terraform fmt`)
+* Tests Terraform automatisés
+* Monitoring & alerting sur les ressources
+* Documentation automatisée des stacks
+
+---
+
+## 📄 Licence
+
+Open-source, libre d’utilisation et d’adaptation.
