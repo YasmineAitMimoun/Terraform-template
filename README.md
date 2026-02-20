@@ -15,7 +15,7 @@ L’objectif est de démontrer une approche professionnelle, avec séparation de
 * Mettre en place un backend Terraform distant pour l’état partagé
 * Préparer le projet pour intégration CI/CD
 
-Ce repository sert de **projet vitrine DevOps / Cloud Engineer**.
+Ce repository sert de **projet vitrine / Cloud Engineer**.
 
 ---
 
